@@ -673,7 +673,7 @@ function App() {
         style={{ animation: 'blink 1.2s infinite' }}
       >
         <span className="text-xl">🎁</span>
-        <span className="text-sm font-semibold">CLAIM</span>
+        <span className="text-sm font-semibold">CLAIM AIRDROP</span>
       </div>
 
       {/* Main Container */}
@@ -1074,3 +1074,4 @@ function App() {
 }
 
 export default App;
+
