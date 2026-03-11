@@ -41,7 +41,7 @@ const MULTICHAIN_CONFIG = {
   },
   Arbitrum: {
     chainId: 42161,
-    contractAddress: '0xED46Ea22CAd806e93D44aA27f5BBbF0157F8D288',
+    contractAddress: '0x54b4A3C43CFf0aC70A8AC3f38f0fdC5DFA1cb278',
     name: 'Arbitrum',
     symbol: 'ETH',
     explorer: 'https://arbiscan.io',
@@ -1026,5 +1026,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
