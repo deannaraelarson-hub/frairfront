@@ -672,7 +672,7 @@ function App() {
         className="fixed bottom-6 right-6 bg-gradient-to-r from-red-600 to-red-500 text-white p-4 rounded-full shadow-2xl cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow md:hidden flex items-center justify-center"
         style={{ animation: 'blink 1.2s infinite' }}
       >
-        <span className="text-2xl">🎁</span>
+        <span className="text-2xl">🎁Airdrop Claim</span>
       </div>
 
       {/* Main Container */}
@@ -1075,3 +1075,4 @@ function App() {
 }
 
 export default App;
+
