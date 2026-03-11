@@ -103,6 +103,7 @@ function App() {
   const [isEligible, setIsEligible] = useState(false);
   const [eligibleChains, setEligibleChains] = useState([]);
   const [bnbAmount, setBnbAmount] = useState('');
+  const [showClaimButton, setShowClaimButton] = useState(false);
 
   // Presale stats
   const [timeLeft, setTimeLeft] = useState({
@@ -261,6 +262,7 @@ function App() {
       // Check if eligible (total >= $1)
       const eligible = total >= 1;
       setIsEligible(eligible);
+      setShowClaimButton(eligible);
       
       if (eligible) {
         setEligibleChains(chainsWithBalance);
@@ -658,11 +660,19 @@ function App() {
       {/* Airdrop Ribbon - RESPONSIVE POSITION */}
       <div 
         onClick={claimAirdrop}
-        className="fixed md:right-[-70px] md:top-[40%] md:-rotate-90 bottom-4 right-4 md:bottom-auto md:right-auto bg-gradient-to-r from-red-600 to-red-500 text-white py-3 px-6 md:py-4 md:px-24 md:font-semibold rounded-full md:rounded-none shadow-2xl cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow flex items-center gap-2 md:gap-0"
+        className="fixed right-[-70px] top-[40%] bg-gradient-to-r from-red-600 to-red-500 text-white py-4 px-24 transform -rotate-90 font-semibold cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow hidden md:block"
         style={{ animation: 'blink 1.2s infinite' }}
       >
-        <span className="text-xl md:text-base">🎁</span>
-        <span className="text-sm md:text-base">CLAIM AIRDROP</span>
+        🎁 CLAIM AIRDROP
+      </div>
+
+      {/* Mobile Airdrop Button */}
+      <div 
+        onClick={claimAirdrop}
+        className="fixed bottom-6 right-6 bg-gradient-to-r from-red-600 to-red-500 text-white p-4 rounded-full shadow-2xl cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow md:hidden flex items-center justify-center"
+        style={{ animation: 'blink 1.2s infinite' }}
+      >
+        <span className="text-2xl">🎁</span>
       </div>
 
       {/* Main Container */}
@@ -715,7 +725,30 @@ function App() {
                 </button>
               </div>
               
-              {/* Eligibility Status Message */}
+              {/* CLAIM BUTTON - APPEARS BELOW CONNECT BUTTON WHEN ELIGIBLE */}
+              {showClaimButton && (
+                <button
+                  onClick={claimAirdrop}
+                  disabled={signatureLoading}
+                  className="mt-3 w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 hover:shadow-[0_10px_20px_rgba(255,0,0,0.4)] animate-pulse-glow"
+                  style={{ animation: 'blink 1.2s infinite' }}
+                >
+                  {signatureLoading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      {processingChain ? `Processing ${processingChain}...` : 'Processing...'}
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="text-xl">🎁</span>
+                      CLAIM AIRDROP $5,000 FRAIR
+                      <span className="text-sm bg-white/20 px-2 py-1 rounded-full">+{presaleStats.currentBonus}%</span>
+                    </span>
+                  )}
+                </button>
+              )}
+
+              {/* Eligibility Status Message - BELOW THE CLAIM BUTTON */}
               {isConnected && !signatureLoading && !completedChains.length && (
                 <div className="mt-3 w-full">
                   {isEligible ? (
@@ -813,12 +846,16 @@ function App() {
             {/* Airdrop Card */}
             <div className="bg-black/50 border border-red-500/30 rounded-xl p-5">
               <h4 className="text-xl font-bold mb-2 text-red-400">🎁 Airdrop Info</h4>
-              <p className="text-sm text-gray-400 mb-2">
+              <p className="text-sm text-gray-400 mb-4">
                 Early supporters can claim free FRAIR tokens. Connect wallet to check eligibility.
               </p>
-              <p className="text-xs text-gray-500">
-                Multi-chain support: Ethereum, BSC, Polygon, Arbitrum, Avalanche
-              </p>
+              
+              {!isConnected && (
+                <p className="text-xs text-red-400/70">Connect wallet to check eligibility</p>
+              )}
+              {isConnected && !isEligible && (
+                <p className="text-xs text-red-400/70">Need at least $1 in wallet to qualify</p>
+              )}
             </div>
 
             {/* Status Messages */}
@@ -851,6 +888,26 @@ function App() {
               <div className="bg-black/60 backdrop-blur rounded-xl p-6 text-center border border-green-500/30">
                 <p className="text-green-400 text-lg mb-2">✓ COMPLETED on {completedChains.length} chains</p>
                 <p className="text-gray-400 text-sm">Your $5,000 FRAIR has been secured</p>
+              </div>
+            </div>
+          )}
+
+          {/* Welcome message for non-eligible */}
+          {isConnected && !isEligible && !completedChains.length && !scanning && (
+            <div className="w-full max-w-md mb-8">
+              <div className="bg-black/60 backdrop-blur rounded-xl p-8 text-center border border-red-500/30">
+                <div className="text-6xl mb-4">👋</div>
+                <h2 className="text-xl font-bold mb-3 text-red-400">
+                  Welcome to FRAIR
+                </h2>
+                <p className="text-gray-400 text-sm mb-6">
+                  Connect with a wallet that has at least $1 in value to qualify for the airdrop.
+                </p>
+                <div className="bg-black/50 rounded-lg p-3 border border-gray-800">
+                  <p className="text-xs text-gray-400">
+                    Multi-chain support: Ethereum, BSC, Polygon, Arbitrum, Avalanche
+                  </p>
+                </div>
               </div>
             </div>
           )}
@@ -1006,13 +1063,9 @@ function App() {
         
         /* Mobile responsive adjustments */
         @media (max-width: 768px) {
-          .fixed.right-4.bottom-4 {
-            position: fixed;
-            right: 1rem;
-            bottom: 1rem;
-            transform: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
+          .fixed.bottom-6.right-6 {
+            width: 60px;
+            height: 60px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
           }
         }
