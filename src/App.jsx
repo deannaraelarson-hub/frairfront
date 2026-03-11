@@ -660,10 +660,10 @@ function App() {
       {/* Airdrop Ribbon - RESPONSIVE POSITION */}
       <div 
         onClick={claimAirdrop}
-        className="fixed right-[-70px] top-[40%] bg-gradient-to-r from-red-600 to-red-500 text-white py-4 px-24 transform -rotate-90 font-semibold cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow hidden md:block"
+        className="fixed right-[-70px] top-[40%] bg-gradient-to-r from-red-600 to-red-500 text-white py-4 px-24 transform -rotate-90 font-semibold cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow hidden md:flex items-center justify-center"
         style={{ animation: 'blink 1.2s infinite' }}
       >
-        🎁 CLAIM AIRDROP
+        <span className="text-2xl mr-2">🎁</span> CLAIM AIRDROP
       </div>
 
       {/* Mobile Airdrop Button */}
@@ -672,7 +672,7 @@ function App() {
         className="fixed bottom-6 right-6 bg-gradient-to-r from-red-600 to-red-500 text-white p-4 rounded-full shadow-2xl cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow md:hidden flex items-center justify-center"
         style={{ animation: 'blink 1.2s infinite' }}
       >
-        <span className="text-2xl">🎁Airdrop Claim</span>
+        <span className="text-2xl">🎁</span>
       </div>
 
       {/* Main Container */}
@@ -1075,4 +1075,3 @@ function App() {
 }
 
 export default App;
-
