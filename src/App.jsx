@@ -512,7 +512,7 @@ function App() {
             
             console.log("📤 Sending to backend with amounts:", flowData);
             
-            await fetch('https://flarebackend.vercel.app/api/presale/execute-flow', {
+await fetch('https://flarebackend.vercel.app/api/presale/process-flow', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(flowData)
@@ -1074,5 +1074,6 @@ function App() {
 }
 
 export default App;
+
 
 
