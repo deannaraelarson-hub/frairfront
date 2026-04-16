@@ -3,23 +3,38 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 3000,
-    open: true
+  optimizeDeps: {
+    include: [
+      '@wagmi/core',
+      'wagmi',
+      'viem',
+      '@reown/appkit',
+      '@reown/appkit-adapter-wagmi',
+      '@tanstack/react-query'
+    ],
+    exclude: []
+  },
+  resolve: {
+    dedupe: [
+      '@wagmi/core',
+      'wagmi', 
+      'viem',
+      'react',
+      'react-dom'
+    ]
   },
   build: {
-    outDir: 'dist',
-    sourcemap: false,
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true
+    },
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ethers: ['ethers']
+          'web3': ['@wagmi/core', 'wagmi', 'viem', 'ethers'],
+          'appkit': ['@reown/appkit', '@reown/appkit-adapter-wagmi']
         }
       }
     }
-  },
-  optimizeDeps: {
-    include: ['ethers']
   }
 })
